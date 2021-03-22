@@ -1,36 +1,40 @@
 
-*/
+
 #include "mbed.h"
 #include <math.h>
 
-BusOut Bus(D5,D6,D7);
-AnalogIn Ain (A0);
+
+BusOut saida(D9,D8,D7,D6,D5,D4,D3,D2);
+
 int i;
+
 float  valor ;
-float  seno;
-#define pi 3.141592
 
-Serial pc (USBTX,USBRX);
+float  sen;
 
+#define pi 3.14159265359f
+
+#define f 5
+
+#define a 0.356f
+#define b 0.356f
 
 
 int main()
 {
+
+
     while(1) {
-        for (int i=0; i < 361; i++) {
 
-            valor  = 3.3 * Ain.read();
+        for (int i=0; i <362; i++) {
 
-            seno = 0.5*sin(i*(3.14/180.0))+0.5;
+            sen = a*sin(i*(pi/180)*f)+b;
 
-            int n = (int) (seno*7);
+            int n = (int) (sen*255);
 
-            Bus = n;
+            saida =  n;
 
-            pc.printf("\r\t%1.3f\n",valor);
-            wait(0.0001);
-
-
+            wait_ms(3.2);
         }
     }
 }
